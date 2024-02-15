@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using EducaFacil.Domain.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace EducaFacil.Infrastructure.Data
@@ -10,5 +11,14 @@ namespace EducaFacil.Infrastructure.Data
         {
 
         }
-    }
+        public DbSet<Aluno> Alunos { get; set; }
+        public DbSet<ResponsavelContratante> Responsaveis { get; set; }
+        public DbSet<Professor> Professores { get; set; }
+        public DbSet<Curso> Cursos { get; set; }
+        public DbSet<Disciplina> Disciplinas { get; set; }
+        public DbSet<Turma> Turmas { get; set; }
+        public DbSet<Matricula> Matriculas { get; set; }
+        public DbSet<Notificacao> Notificacoes { get; set; }
+        public DbSet<RefreshToken> RefreshToken { get; set; }
+    }   
 }
