@@ -11,8 +11,9 @@ namespace EducaFacil.Domain.Entities
         public int Idade { get; set; }
         public string Email { get; set; } = string.Empty;
         public string Sexo { get; set; } = string.Empty;
-        public string Genero { get; set; } = string.Empty;       
+        public string Genero { get; set; } = string.Empty;
         public string Observacao { get; set; } = string.Empty;
+        public string Senha { get; set; } = string.Empty;
         public DateTime DataNascimento { get; set; }
         public DateTime DataAtualizacao { get; set; }
         public DateTime DataCriacao { get; set; }
