@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EducaFacil.Application.ViewModel
+﻿namespace EducaFacil.Application.DTOs
 {
-    public class ResponsavelViewModel
+    public class ResponsavelUpdateDTO
     {
-        public Guid Id { get; set; }
         public string Nome { get; set; }
         public string Sobrenome { get; set; }
         public string CPF { get; set; }
         public string NumeroContato { get; set; }
         public string WhatsApp { get; set; }
+        public string Email { get; set; }
         public string Estado { get; set; }
         public string Endereco { get; set; }
         public string CodigoPostal { get; set; }
@@ -24,9 +18,5 @@ namespace EducaFacil.Application.ViewModel
         public string Bairro { get; set; }
         public string Observacao { get; set; }
         public DateTime DataNascimento { get; set; }
-        public DateTime DataAtualizacao { get; set; }
-        public DateTime DataCriacao { get; set; }
-        public DateTime DataVencimento { get; set; }
-        public List<AlunoViewModel> Alunos { get; set; } = new List<AlunoViewModel>();
     }
 }
