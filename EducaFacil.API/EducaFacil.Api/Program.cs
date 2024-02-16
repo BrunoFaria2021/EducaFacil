@@ -2,13 +2,11 @@ using EducaFacil.Application.Interfaces;
 using EducaFacil.Application.Services;
 using EducaFacil.Infrastructure.Data;
 using EducaFacil.Infrastructure.Data.Interfaces;
-using EducaFacil.Infrastructure.Data.Repositories;
 using EducaFacil.Infrastructure.Data.Repositpories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +20,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // Registrando os serviços e repositórios
 builder.Services.AddScoped<IAlunoAppService, AlunoAppService>();
 builder.Services.AddScoped<IAlunoRepository, AlunoRepository>();
+builder.Services.AddScoped<IResponsavelAppService, ResponsavelAppService>();
+builder.Services.AddScoped<IResponsavelRepository, ResponsavelRepository>();
+builder.Services.AddScoped<IAutenticacaoRepository, AutenticacaoRepository>();
+builder.Services.AddScoped<IAutenticacaoAppService, AutenticacaoAppService>();
 
 // Adicionando a autenticação JWT
 var chave = Encoding.ASCII.GetBytes("a62263c508f45182b3d524b33ebc4c9b1652d9c195bbd81f9b0c0e6c312a7775");

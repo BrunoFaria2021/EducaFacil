@@ -1,25 +1,18 @@
-﻿using EducaFacil.Application.Interfaces;
+﻿using EducaFacil.Application.DTOs;
+using EducaFacil.Application.Interfaces;
 using EducaFacil.Application.ViewModel;
+using EducaFacil.CrossCutting.Extensions;
+using EducaFacil.Domain.Entities;
 using EducaFacil.Infrastructure.Data.Interfaces;
-using GestaoDiet.Application.DTOs;
-using GestaoDiet.CrossCutting.Extensions;
-using GestaoDiet.Domain.Entities;
-using GestaoDiet.Infra.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Net.Sockets;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace GestaoDiet.Application.Services
+namespace EducaFacil.Application.Services
 {
-    public class AutenticacaoAppService: IAutenticacaoAppService
+    public class AutenticacaoAppService : IAutenticacaoAppService
     {
         private readonly IAutenticacaoRepository _autenticacaoRepository;
         private readonly IConfiguration _configuration;
@@ -80,7 +73,7 @@ namespace GestaoDiet.Application.Services
                 };
             }
         }
-        public  RetornoApi<TokenAcesso> RefreshToken(string refreshToken) 
+        public RetornoApi<TokenAcesso> RefreshToken(string refreshToken)
         {
 
             TokenAcesso tokenAcesso = new TokenAcesso();
@@ -89,9 +82,10 @@ namespace GestaoDiet.Application.Services
 
             var valido = ValidarToken(refreshToken);
 
-            if (!valido) {
+            if (!valido)
+            {
 
-               return new RetornoApi<TokenAcesso>
+                return new RetornoApi<TokenAcesso>
                 {
                     Success = false,
                     Message = "Refresh token inválido!",
@@ -102,14 +96,15 @@ namespace GestaoDiet.Application.Services
 
             var usuarioId = ObterUsuarioIdNoToken(refreshToken);
 
-            if (usuarioId != null && chave != null) {
+            if (usuarioId != null && chave != null)
+            {
 
-               var dadosToken = GerarToken((Guid)usuarioId, chave);
+                var dadosToken = GerarToken((Guid)usuarioId, chave);
 
                 tokenAcesso.ExpiracaoToken = dadosToken.Item2;
                 tokenAcesso.Token = dadosToken.Item1;
 
-              return  new RetornoApi<TokenAcesso>
+                return new RetornoApi<TokenAcesso>
                 {
                     Data = tokenAcesso,
                     Success = true,
@@ -222,12 +217,13 @@ namespace GestaoDiet.Application.Services
                         RefreshToken = stringRefreshToken
                     }
                 };
-            }   
+            }
 
             return null;
 
         }
-        private Tuple<string, DateTime> GerarToken(Guid usuarioId, string chave) {
+        private Tuple<string, DateTime> GerarToken(Guid usuarioId, string chave)
+        {
 
             byte[] codigo;
 
@@ -288,7 +284,7 @@ namespace GestaoDiet.Application.Services
 
             return null;
         }
-        private  bool ValidarToken(string token)
+        private bool ValidarToken(string token)
         {
 
             var chaveDeAcesso = _configuration.GetSection("AutenticacaoApi")["RefreshSecret"];
@@ -318,7 +314,8 @@ namespace GestaoDiet.Application.Services
                 return false; // Token inválido
             }
         }
-        private Guid? ObterUsuarioIdNoToken(string token) {
+        private Guid? ObterUsuarioIdNoToken(string token)
+        {
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var jwtToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
@@ -339,6 +336,6 @@ namespace GestaoDiet.Application.Services
             return null;
 
         }
-    
+
     }
 }

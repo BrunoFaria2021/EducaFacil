@@ -16,8 +16,8 @@ namespace EducaFacil.API.Controllers
             _alunoAppService = alunoAppService;
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(Guid id)
+        [HttpGet("BuscarAlunoId")]
+        public async Task<IActionResult> BuscarAlunoId(Guid id)
         {
             var resultado = await _alunoAppService.BuscarAlunoId(id);
 
@@ -35,9 +35,28 @@ namespace EducaFacil.API.Controllers
 
             return Ok(resultado);
         }
+        [HttpGet("{responsavelId}")]
+        public async Task<IActionResult> BuscarTodosOsAlunos(Guid responsavelId)
+        {
+            var resultado = await _alunoAppService.BuscarTodosOsAlunos(responsavelId);
 
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody] AlunoDTO alunoDTO)
+            if (!resultado.Success)
+            {
+                if (resultado.StatusCode == HttpStatusCode.NotFound)
+                    return NotFound(resultado);
+
+                if (resultado.StatusCode == HttpStatusCode.BadRequest)
+                    return BadRequest(resultado);
+
+                if (resultado.StatusCode == HttpStatusCode.InternalServerError)
+                    BadRequest(resultado);
+            }
+
+            return Ok(resultado);
+        }
+
+        [HttpPost("CriarAluno")]
+        public async Task<IActionResult> CriarAluno([FromBody] AlunoDTO alunoDTO)
         {
             var resultado = await _alunoAppService.CriarAluno(alunoDTO);
 
@@ -56,8 +75,8 @@ namespace EducaFacil.API.Controllers
             return Ok(resultado);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
+        [HttpDelete("{id}DeletarAluno")]
+        public async Task<IActionResult> DeletarAluno(Guid id)
         {
             var resultado = await _alunoAppService.DeletarAluno(id);
 
@@ -76,8 +95,8 @@ namespace EducaFacil.API.Controllers
             return Ok(resultado);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, [FromBody] AlunoUpdateDTO alunoDTO)
+        [HttpPut("{id}EditarAluno")]
+        public async Task<IActionResult> EditarAluno(Guid id, [FromBody] AlunoUpdateDTO alunoDTO)
         {
             var resultado = await _alunoAppService.EditarAluno(id, alunoDTO);
 

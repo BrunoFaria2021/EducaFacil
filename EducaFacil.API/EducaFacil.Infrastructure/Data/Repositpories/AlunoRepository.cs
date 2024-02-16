@@ -16,7 +16,7 @@ namespace EducaFacil.Infrastructure.Data.Repositpories
         }
 
         public RetornoApi<Aluno> BuscarAlunoId(Guid id)
-        {            
+        {
             RetornoApi<Aluno> retorno = new RetornoApi<Aluno>()
             {
                 Success = false,
@@ -25,7 +25,8 @@ namespace EducaFacil.Infrastructure.Data.Repositpories
             };
             try
             {
-                var buscarAlunoId = _context.Alunos.Include(x => x.ResponsavelId).Where(x => x.Id == id).FirstOrDefault();
+                var buscarAlunoId = _context.Alunos.FirstOrDefault(x => x.Id == id);
+                //var buscarAlunoId = _context.Alunos.Include(x => x.ResponsavelId).Where(x => x.Id == id).FirstOrDefault();
 
                 if (buscarAlunoId == null)
                 {

@@ -4,13 +4,7 @@ using EducaFacil.Application.ViewModel;
 using EducaFacil.CrossCutting.Extensions;
 using EducaFacil.Domain.Entities;
 using EducaFacil.Infrastructure.Data.Interfaces;
-using EducaFacil.Infrastructure.Data.Repositpories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EducaFacil.Application.Services
 {
@@ -48,7 +42,7 @@ namespace EducaFacil.Application.Services
             AlunoViewModel alunoViewModel = new AlunoViewModel()
             {
                 Id = id,
-                Nome = dados.Data.Nome, 
+                Nome = dados.Data.Nome,
                 Sobrenome = dados.Data.Sobrenome,
                 CPF = dados.Data.CPF,
                 Idade = CalcularIdade(dados.Data.DataNascimento),
@@ -63,25 +57,13 @@ namespace EducaFacil.Application.Services
 
 
             };
-
-
             retorno.Message = "Aluno Encontrado com Sucesso";
             retorno.Data = alunoViewModel;
             retorno.Success = true;
             retorno.StatusCode = HttpStatusCode.OK;
-
             return retorno;
         }
-        // Método para calcular a idade com base na data de nascimento
-        private int CalcularIdade(DateTime dataNascimento)
-        {
-            DateTime dataAtual = DateTime.Now;
-            int idade = dataAtual.Year - dataNascimento.Year;
-            if (dataNascimento.Date > dataAtual.AddYears(-idade)) idade--;
-            return idade;
-        }
-
-        public Task<RetornoApi<List<AlunoViewModel>>> BuscarTodosOsAlunos(Guid responsavelId)
+        public async Task<RetornoApi<List<AlunoViewModel>>> BuscarTodosOsAlunos(Guid responsavelId)
         {
             RetornoApi<List<AlunoViewModel>> retorno = new RetornoApi<List<AlunoViewModel>>();
 
@@ -114,7 +96,8 @@ namespace EducaFacil.Application.Services
                     DataAtualizacao = aluno.DataAtualizacao,
                     DataCriacao = aluno.DataCriacao,
                     ResponsavelId = aluno.ResponsavelId,
-                    Responsavel =  ObterResponsavelViewModel(dados.Data.ResponsavelId)
+                   
+
                 };
 
                 listaAlunosViewModel.Add(alunoViewModel);
@@ -127,23 +110,6 @@ namespace EducaFacil.Application.Services
 
             return retorno;
         }
-        private async Task<ResponsavelViewModel> ObterResponsavelViewModel(Guid responsavelId)
-        {
-            var responsavel = await _responsavelRepository.BuscarResponsavelId(responsavelId);
-            if (responsavel.Success)
-            {
-                return new ResponsavelViewModel
-                {
-                    Id = responsavel.Data.Id,
-                    Nome = responsavel.Data.Nome,
-                    Sobrenome = responsavel.Data.Sobrenome,
-                    CPF = responsavel.Data.CPF,
-                    // Adicione outras propriedades conforme necessário
-                };
-            }
-            return null;
-        }
-
         public Task<RetornoApi<AlunoViewModel>> CriarAluno(AlunoDTO alunoDTO)
         {
             RetornoApi<AlunoViewModel> retorno = new RetornoApi<AlunoViewModel>()
@@ -163,10 +129,11 @@ namespace EducaFacil.Application.Services
 
                 return Task.FromResult(retorno);
             }
+
             var senhaSegura = HashSenha.HashSenhaUsuario(alunoDTO.Senha);
+
             Aluno aluno = new Aluno()
             {
-
                 Nome = alunoDTO.Nome,
                 Sobrenome = alunoDTO.Sobrenome,
                 CPF = alunoDTO.CPF,
@@ -202,12 +169,39 @@ namespace EducaFacil.Application.Services
 
         public Task<RetornoApi<AlunoViewModel>> DeletarAluno(Guid id)
         {
-            throw new NotImplementedException();
+            RetornoApi<AlunoViewModel> retorno = new RetornoApi<AlunoViewModel>();
+
+            var dados = _alunoRepository.DeletarAluno(id);
+
+            if (!dados.Success)
+            {
+                retorno.Message = dados.Message;
+                retorno.Success = false;
+                retorno.StatusCode = dados.StatusCode;
+                retorno.Errors.AddRange(dados.Errors);
+                return Task.FromResult(retorno);
+            }
+
+            retorno.Message = "Aluno deletado com sucesso!";
+            retorno.Success = true;
+            retorno.StatusCode = HttpStatusCode.OK;
+
+            return Task.FromResult(retorno);
         }
 
         public Task<RetornoApi<AlunoViewModel>> EditarAluno(Guid id, AlunoUpdateDTO alunoDTO)
         {
             throw new NotImplementedException();
         }
+
+        // Método para calcular a idade com base na data de nascimento
+        private int CalcularIdade(DateTime dataNascimento)
+        {
+            DateTime dataAtual = DateTime.Now;
+            int idade = dataAtual.Year - dataNascimento.Year;
+            if (dataNascimento.Date > dataAtual.AddYears(-idade)) idade--;
+            return idade;
+        }
+
     }
 }

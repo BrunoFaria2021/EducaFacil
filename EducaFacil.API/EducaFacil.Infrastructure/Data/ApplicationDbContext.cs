@@ -20,5 +20,11 @@ namespace EducaFacil.Infrastructure.Data
         public DbSet<Matricula> Matriculas { get; set; }
         public DbSet<Notificacao> Notificacoes { get; set; }
         public DbSet<RefreshToken> RefreshToken { get; set; }
-    }   
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+        }
+    }
 }
