@@ -106,7 +106,7 @@ namespace EducaFacil.API.Controllers
                     return NotFound(resultado);
 
                 if (resultado.StatusCode == HttpStatusCode.BadRequest)
-                    return BadRequest(resultado);
+                    return BadRequest(resultado); 
 
                 if (resultado.StatusCode == HttpStatusCode.InternalServerError)
                     BadRequest(resultado);
