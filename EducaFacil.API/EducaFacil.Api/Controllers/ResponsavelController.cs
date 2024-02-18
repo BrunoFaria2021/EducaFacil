@@ -16,7 +16,7 @@ namespace EducaFacil.API.Controllers
             _responsavelAppService = responsavelAppService;
         }
 
-        [HttpGet("BuscarResponsavelPorId")]
+        [HttpGet("BuscarPorId/{id}")]
         public async Task<IActionResult> BuscarResponsavelPorId(Guid id, Guid alunoId)
         {
             try
@@ -43,7 +43,7 @@ namespace EducaFacil.API.Controllers
             }
         }
 
-        [HttpGet("{id} BuscarTodosOsResponsaveis")]
+        [HttpGet("BuscarTodos/{id}")]
         public async Task<IActionResult> BuscarTodosOsResponsaveis(Guid id)
         {
             var resultado = await _responsavelAppService.BuscarTodosOsResponsaveis(id);
@@ -63,7 +63,7 @@ namespace EducaFacil.API.Controllers
             return Ok(resultado);
         }
 
-        [HttpPost("CriarResponsavel")]
+        [HttpPost("Criar")]
         public async Task<IActionResult> CriarResponsavel([FromBody] ResponsavelDTO responsavelDTO)
         {
             try
@@ -90,7 +90,7 @@ namespace EducaFacil.API.Controllers
             }
         }
 
-        [HttpDelete("{id}DeletarResponsavel")]
+        [HttpDelete("Deletar/{id}")]
         public async Task<IActionResult> DeletarResponsavel(Guid id)
         {
             try
@@ -117,7 +117,7 @@ namespace EducaFacil.API.Controllers
             }
         }
 
-        [HttpPut("{id}EditarResponsavel")]
+        [HttpPut("Editar/{id}")]
         public async Task<IActionResult> EditarResponsavel(Guid id, [FromBody] ResponsavelUpdateDTO responsavelDTO)
         {
             try

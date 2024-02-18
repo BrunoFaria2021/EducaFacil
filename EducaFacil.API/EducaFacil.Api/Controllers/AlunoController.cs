@@ -16,7 +16,7 @@ namespace EducaFacil.API.Controllers
             _alunoAppService = alunoAppService;
         }
 
-        [HttpGet("BuscarAlunoId")]
+        [HttpGet("BuscarPorId/{id}")]
         public async Task<IActionResult> BuscarAlunoId(Guid id)
         {
             var resultado = await _alunoAppService.BuscarAlunoId(id);
@@ -35,7 +35,7 @@ namespace EducaFacil.API.Controllers
 
             return Ok(resultado);
         }
-        [HttpGet("{responsavelId}")]
+        [HttpGet("BuscarTodosPorResponsavel/{responsavelId}")]
         public async Task<IActionResult> BuscarTodosOsAlunos(Guid responsavelId)
         {
             var resultado = await _alunoAppService.BuscarTodosOsAlunos(responsavelId);
@@ -55,7 +55,7 @@ namespace EducaFacil.API.Controllers
             return Ok(resultado);
         }
 
-        [HttpPost("CriarAluno")]
+        [HttpPost("Criar")]
         public async Task<IActionResult> CriarAluno([FromBody] AlunoDTO alunoDTO)
         {
             var resultado = await _alunoAppService.CriarAluno(alunoDTO);
@@ -75,7 +75,7 @@ namespace EducaFacil.API.Controllers
             return Ok(resultado);
         }
 
-        [HttpDelete("{id}DeletarAluno")]
+        [HttpDelete("Deletar/{id}")]
         public async Task<IActionResult> DeletarAluno(Guid id)
         {
             var resultado = await _alunoAppService.DeletarAluno(id);
@@ -95,7 +95,7 @@ namespace EducaFacil.API.Controllers
             return Ok(resultado);
         }
 
-        [HttpPut("{id}EditarAluno")]
+        [HttpPut("Editar/{id}")]
         public async Task<IActionResult> EditarAluno(Guid id, [FromBody] AlunoUpdateDTO alunoDTO)
         {
             var resultado = await _alunoAppService.EditarAluno(id, alunoDTO);
