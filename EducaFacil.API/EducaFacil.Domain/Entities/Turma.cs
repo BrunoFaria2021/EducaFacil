@@ -5,18 +5,20 @@ namespace EducaFacil.Domain.Entities
 {
     public class Turma
     {
-        public Guid Id { get; set;}
+        public Guid Id { get; set; }
         public string Nome { get; set; } = string.Empty;
-        public EnumTipoTurno Tipo { get; set; }
-        [ForeignKey("CursoId")]
-        public Guid CursoId { get; set;}
-        //public List<Aluno> Alunos { get; set; } = new List<Aluno>();
-        [ForeignKey("DisciplinaId")]
-        public Guid DisciplinaId { get; set; }
-        public Disciplina Disciplina { get; set; }
-        [ForeignKey("ProfessorId")]
-        public Guid ProfessorId { get; set; }
-        public Professor Professor { get; set; }
-        public List<Matricula> Matriculas { get; set; }
+        public DateTime Horario { get; set; }
+        public bool Numero { get; set; }
+
+        // Lista de alunos na turma
+        public List<Aluno> Alunos { get; set; } = new List<Aluno>();
+
+        // Lista de professores que ensinam na turma
+        public List<Professor> Professores { get; set; } = new List<Professor>();
+
+        // Lista de materias que são ensinadas na turma
+        public List<Materia> Materias { get; set; } = new List<Materia>();
+        public List<Matricula> Matriculas { get; set; } = new List<Matricula>();
     }
+
 }

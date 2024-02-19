@@ -51,7 +51,7 @@ namespace EducaFacil.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Cursos",
+                name: "ModeloEnsino",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -59,7 +59,7 @@ namespace EducaFacil.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Cursos", x => x.Id);
+                    table.PrimaryKey("PK_ModeloEnsino", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -68,28 +68,9 @@ namespace EducaFacil.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Sobrenome = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Contato = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Senha = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Sexo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Genero = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EstadoCivil = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Ocupacao = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CPF = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NumeroContato = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    WhatsApp = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Estado = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Endereco = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CodigoPostal = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NumeroEndereco = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Complemento = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EstadoEndereco = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Cidade = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Bairro = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Observacao = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DataNascimento = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DataAtualizacao = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DataCriacao = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Senha = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -248,22 +229,42 @@ namespace EducaFacil.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Disciplinas",
+                name: "Series",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CursoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    ModeloEnsinoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Disciplinas", x => x.Id);
+                    table.PrimaryKey("PK_Series", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Disciplinas_Cursos_CursoId",
-                        column: x => x.CursoId,
-                        principalTable: "Cursos",
+                        name: "FK_Series_ModeloEnsino_ModeloEnsinoId",
+                        column: x => x.ModeloEnsinoId,
+                        principalTable: "ModeloEnsino",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Turmas",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Horario = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Numero = table.Column<bool>(type: "bit", nullable: false),
+                    SerieId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Turmas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Turmas_Series_SerieId",
+                        column: x => x.SerieId,
+                        principalTable: "Series",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -284,48 +285,76 @@ namespace EducaFacil.Infrastructure.Migrations
                     DataAtualizacao = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DataCriacao = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ResponsavelId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProfessorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    SerieId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TurmaId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Alunos", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Alunos_Professores_ProfessorId",
-                        column: x => x.ProfessorId,
-                        principalTable: "Professores",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Alunos_Responsaveis_ResponsavelId",
                         column: x => x.ResponsavelId,
                         principalTable: "Responsaveis",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Alunos_Series_SerieId",
+                        column: x => x.SerieId,
+                        principalTable: "Series",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Alunos_Turmas_TurmaId",
+                        column: x => x.TurmaId,
+                        principalTable: "Turmas",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Turmas",
+                name: "Disciplinas",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Tipo = table.Column<int>(type: "int", nullable: false),
-                    CursoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DisciplinaId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProfessorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    ProfessorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TurmaId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Turmas", x => x.Id);
+                    table.PrimaryKey("PK_Disciplinas", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Turmas_Disciplinas_DisciplinaId",
-                        column: x => x.DisciplinaId,
-                        principalTable: "Disciplinas",
+                        name: "FK_Disciplinas_Professores_ProfessorId",
+                        column: x => x.ProfessorId,
+                        principalTable: "Professores",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Turmas_Professores_ProfessorId",
-                        column: x => x.ProfessorId,
+                        name: "FK_Disciplinas_Turmas_TurmaId",
+                        column: x => x.TurmaId,
+                        principalTable: "Turmas",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProfessorTurma",
+                columns: table => new
+                {
+                    ProfessoresId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TurmasId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProfessorTurma", x => new { x.ProfessoresId, x.TurmasId });
+                    table.ForeignKey(
+                        name: "FK_ProfessorTurma_Professores_ProfessoresId",
+                        column: x => x.ProfessoresId,
                         principalTable: "Professores",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProfessorTurma_Turmas_TurmasId",
+                        column: x => x.TurmasId,
+                        principalTable: "Turmas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -347,6 +376,46 @@ namespace EducaFacil.Infrastructure.Migrations
                         name: "FK_BilhetesPresenca_Alunos_AlunoId",
                         column: x => x.AlunoId,
                         principalTable: "Alunos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Matriculas",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DataMatricula = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AlunoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ResponsavelId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SerieId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TurmaId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Matriculas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Matriculas_Alunos_AlunoId",
+                        column: x => x.AlunoId,
+                        principalTable: "Alunos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Matriculas_Responsaveis_ResponsavelId",
+                        column: x => x.ResponsavelId,
+                        principalTable: "Responsaveis",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Matriculas_Series_SerieId",
+                        column: x => x.SerieId,
+                        principalTable: "Series",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Matriculas_Turmas_TurmaId",
+                        column: x => x.TurmaId,
+                        principalTable: "Turmas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -379,39 +448,48 @@ namespace EducaFacil.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Matriculas",
+                name: "AlunoMatriculas",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     AlunoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TurmaId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    MatriculaId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Matriculas", x => x.Id);
+                    table.PrimaryKey("PK_AlunoMatriculas", x => new { x.AlunoId, x.MatriculaId });
                     table.ForeignKey(
-                        name: "FK_Matriculas_Alunos_AlunoId",
+                        name: "FK_AlunoMatriculas_Alunos_AlunoId",
                         column: x => x.AlunoId,
                         principalTable: "Alunos",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Matriculas_Turmas_TurmaId",
-                        column: x => x.TurmaId,
-                        principalTable: "Turmas",
+                        name: "FK_AlunoMatriculas_Matriculas_MatriculaId",
+                        column: x => x.MatriculaId,
+                        principalTable: "Matriculas",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Alunos_ProfessorId",
-                table: "Alunos",
-                column: "ProfessorId");
+                name: "IX_AlunoMatriculas_MatriculaId",
+                table: "AlunoMatriculas",
+                column: "MatriculaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Alunos_ResponsavelId",
                 table: "Alunos",
                 column: "ResponsavelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Alunos_SerieId",
+                table: "Alunos",
+                column: "SerieId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Alunos_TurmaId",
+                table: "Alunos",
+                column: "TurmaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -458,14 +536,29 @@ namespace EducaFacil.Infrastructure.Migrations
                 column: "AlunoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Disciplinas_CursoId",
+                name: "IX_Disciplinas_ProfessorId",
                 table: "Disciplinas",
-                column: "CursoId");
+                column: "ProfessorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Disciplinas_TurmaId",
+                table: "Disciplinas",
+                column: "TurmaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Matriculas_AlunoId",
                 table: "Matriculas",
                 column: "AlunoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Matriculas_ResponsavelId",
+                table: "Matriculas",
+                column: "ResponsavelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Matriculas_SerieId",
+                table: "Matriculas",
+                column: "SerieId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Matriculas_TurmaId",
@@ -483,19 +576,27 @@ namespace EducaFacil.Infrastructure.Migrations
                 column: "ResponsavelId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Turmas_DisciplinaId",
-                table: "Turmas",
-                column: "DisciplinaId");
+                name: "IX_ProfessorTurma_TurmasId",
+                table: "ProfessorTurma",
+                column: "TurmasId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Turmas_ProfessorId",
+                name: "IX_Series_ModeloEnsinoId",
+                table: "Series",
+                column: "ModeloEnsinoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Turmas_SerieId",
                 table: "Turmas",
-                column: "ProfessorId");
+                column: "SerieId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AlunoMatriculas");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -515,13 +616,19 @@ namespace EducaFacil.Infrastructure.Migrations
                 name: "BilhetesPresenca");
 
             migrationBuilder.DropTable(
-                name: "Matriculas");
+                name: "Disciplinas");
 
             migrationBuilder.DropTable(
                 name: "Notificacoes");
 
             migrationBuilder.DropTable(
+                name: "ProfessorTurma");
+
+            migrationBuilder.DropTable(
                 name: "RefreshToken");
+
+            migrationBuilder.DropTable(
+                name: "Matriculas");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -530,22 +637,22 @@ namespace EducaFacil.Infrastructure.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Turmas");
+                name: "Professores");
 
             migrationBuilder.DropTable(
                 name: "Alunos");
 
             migrationBuilder.DropTable(
-                name: "Disciplinas");
-
-            migrationBuilder.DropTable(
-                name: "Professores");
-
-            migrationBuilder.DropTable(
                 name: "Responsaveis");
 
             migrationBuilder.DropTable(
-                name: "Cursos");
+                name: "Turmas");
+
+            migrationBuilder.DropTable(
+                name: "Series");
+
+            migrationBuilder.DropTable(
+                name: "ModeloEnsino");
         }
     }
 }

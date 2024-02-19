@@ -5,10 +5,10 @@ namespace EducaFacil.Infrastructure.Data.Interfaces
 {
     public interface ICursoRepository
     {
-        RetornoApi<List<Curso>> BuscarTodosOsCursos();
-        RetornoApi<Curso> BuscarCurso(Guid id);
-        RetornoApi<Curso> CriarCurso(Curso curso);
-        RetornoApi<Curso> EditarCurso(Guid id, Curso curso);
-        RetornoApi<Curso> DeletarCurso(Guid id);
+        RetornoApi<List<Serie>> BuscarTodosOsCursos();
+        RetornoApi<Serie> BuscarCurso(Guid id);
+        RetornoApi<Serie> CriarCurso(Serie curso);
+        RetornoApi<Serie> EditarCurso(Guid id, Serie curso);
+        RetornoApi<Serie> DeletarCurso(Guid id);
     }
 }

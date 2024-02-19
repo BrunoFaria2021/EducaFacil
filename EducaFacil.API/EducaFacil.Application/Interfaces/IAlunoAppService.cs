@@ -8,7 +8,7 @@ namespace EducaFacil.Application.Interfaces
     {
         Task<RetornoApi<List<AlunoViewModel>>> BuscarTodosOsAlunos(Guid responsavelId);
         Task<RetornoApi<AlunoViewModel>> BuscarAlunoId(Guid id);
-        Task<RetornoApi<AlunoViewModel>> CriarAluno(AlunoDTO alunoDTO);
+        Task<RetornoApi<AlunoViewModel>> CriarAluno(AlunoDTO alunoDTO, Guid serieId);        
         Task<RetornoApi<AlunoViewModel>> EditarAluno(Guid id, AlunoUpdateDTO alunoDTO);
         Task<RetornoApi<AlunoViewModel>> DeletarAluno(Guid id);
     }

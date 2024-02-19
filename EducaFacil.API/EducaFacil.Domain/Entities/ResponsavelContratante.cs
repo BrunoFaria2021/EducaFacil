@@ -26,5 +26,6 @@
 
         //relacionamento
         public virtual List<Aluno> Alunos { get; set; } = new List<Aluno>();
+        public virtual List<Matricula> Matriculas { get; set; } = new List<Matricula>();
     }
 }

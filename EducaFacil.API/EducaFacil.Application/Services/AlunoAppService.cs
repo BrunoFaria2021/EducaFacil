@@ -110,7 +110,7 @@ namespace EducaFacil.Application.Services
 
             return retorno;
         }
-        public Task<RetornoApi<AlunoViewModel>> CriarAluno(AlunoDTO alunoDTO)
+        public async Task<RetornoApi<AlunoViewModel>> CriarAluno(AlunoDTO alunoDTO, Guid serieId)
         {
             RetornoApi<AlunoViewModel> retorno = new RetornoApi<AlunoViewModel>()
             {
@@ -127,7 +127,7 @@ namespace EducaFacil.Application.Services
                 retorno.Success = false;
                 retorno.StatusCode = HttpStatusCode.BadGateway;
 
-                return Task.FromResult(retorno);
+                return retorno;
             }
 
             var senhaSegura = HashSenha.HashSenhaUsuario(alunoDTO.Senha);
@@ -139,32 +139,32 @@ namespace EducaFacil.Application.Services
                 CPF = alunoDTO.CPF,
                 Idade = CalcularIdade(alunoDTO.DataNascimento),
                 Email = alunoDTO.Email,
+                Senha = senhaSegura,
                 Sexo = alunoDTO.Sexo,
                 Genero = alunoDTO.Genero,
                 Observacao = alunoDTO.Observacao,
                 DataNascimento = alunoDTO.DataNascimento,
                 DataAtualizacao = alunoDTO.DataAtualizacao,
                 DataCriacao = alunoDTO.DataCriacao,
-                ResponsavelId = alunoDTO.ResponsavelId
+                ResponsavelId = alunoDTO.ResponsavelId,
+                SerieId = serieId
             };
-            var dados = _alunoRepository.CriarAluno(aluno);
+            var dados =  _alunoRepository.CriarAluno(aluno, serieId);
 
             if (!dados.Success)
             {
                 foreach (var erro in dados.Errors)
                 {
-
                     retorno.Errors.Add(erro);
-
                 }
-                return Task.FromResult(retorno);
+                return  retorno;
             }
 
             retorno.Message = "Aluno criado com Sucesso";
             retorno.Success = true;
             retorno.StatusCode = HttpStatusCode.OK;
 
-            return Task.FromResult(retorno);
+            return retorno;
         }
 
         public Task<RetornoApi<AlunoViewModel>> DeletarAluno(Guid id)

@@ -5,10 +5,10 @@ namespace EducaFacil.Infrastructure.Data.Interfaces
 {
     public interface IMatriculaRepository
     {
-        RetornoApi<List<Matricula>> BuscarTodasAsMatriculas(Guid alunoId);
-        RetornoApi<Matricula> BuscarMatricula(Guid id);
-        RetornoApi<Matricula> CriarMatricula(Matricula matricula);
-        RetornoApi<Matricula> EditarMatricula(Guid id, Matricula matricula);
-        RetornoApi<Matricula> DeletarMatricula(Guid id);
+
+       // RetornoApi<Matricula> BuscarMatricula(Guid id);
+        RetornoApi<Matricula> ObterMatriculaPorId(Guid id);
+        RetornoApi<Matricula> MatricularAluno(Matricula matriculaDTO);
+        RetornoApi<Matricula> CancelarMatricula(Guid id);
     }
 }

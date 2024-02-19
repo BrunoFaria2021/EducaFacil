@@ -8,7 +8,7 @@ namespace EducaFacil.Domain.Entities
         public string Nome { get; set; } = string.Empty;
         public string Sobrenome { get; set; } = string.Empty;
         public string CPF { get; set; } = string.Empty;
-        public int Idade { get; set; }
+        public int Idade { get; set; } = int.MaxValue;
         public string Email { get; set; } = string.Empty;
         public string Sexo { get; set; } = string.Empty;
         public string Genero { get; set; } = string.Empty;
@@ -20,7 +20,12 @@ namespace EducaFacil.Domain.Entities
 
         [ForeignKey("ResponsavelId")]
         public Guid ResponsavelId { get; set; }
-        public ResponsavelContratante Responsavel { get; set; }
+        public ResponsavelContratante Responsavel { get; set; } = new ResponsavelContratante();
+        [ForeignKey("SerieId")]
+        public Guid SerieId { get; set; }
+        public Serie Serie { get; set; }
+
+        public List<AlunoMatricula> AlunoMatriculas { get; set; } = new List<AlunoMatricula>();
         public List<Matricula> Matriculas { get; set; } = new List<Matricula>();
         public List<Notificacao> Notificacoes { get; set;} = new List<Notificacao>();
         public List<BilhetesPresenca> BilhetesPresencas { get; set;} = new List<BilhetesPresenca>();

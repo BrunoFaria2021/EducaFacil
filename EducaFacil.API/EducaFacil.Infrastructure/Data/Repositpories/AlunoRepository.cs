@@ -85,7 +85,7 @@ namespace EducaFacil.Infrastructure.Data.Repositpories
             }
         }
 
-        public RetornoApi<Aluno> CriarAluno(Aluno alunoDTO)
+        public RetornoApi<Aluno> CriarAluno(Aluno alunoDTO, Guid serieId)
         {
             RetornoApi<Aluno> retorno = new RetornoApi<Aluno>()
             {
