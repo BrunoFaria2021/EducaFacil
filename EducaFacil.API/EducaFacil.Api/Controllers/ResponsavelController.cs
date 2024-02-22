@@ -64,7 +64,7 @@ namespace EducaFacil.API.Controllers
         }
 
         [HttpPost("Criar")]
-        public async Task<IActionResult> CriarResponsavel([FromBody] ResponsavelDTO responsavelDTO)
+        public async Task<IActionResult> CriarResponsavel([FromBody] ResponsavelContratanteDTO responsavelDTO)
         {
             try
             {

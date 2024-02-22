@@ -1,19 +1,20 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace EducaFacil.Domain.Entities
+namespace EducaFacil.Application.DTOs
 {
-    public class Nota
+    public class NotaDTO
     {
-        public Guid Id { get; set; }
         public decimal Valor { get; set; }
         public string Disciplina { get; set; }
         public string Periodo { get; set; }
         public DateTime DataLancamento { get; set; }
-
-        // Relacionamento
         public Guid AlunoId { get; set; }
-        public Aluno Aluno { get; set; }
+        public AlunoDTO Aluno { get; set; }
         public Guid ProfessorId { get; set; }
-        public Professor Professor { get; set; }
+        public ProfessorDTO Professor { get; set; }
     }
 }

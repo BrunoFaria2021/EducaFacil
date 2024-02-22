@@ -17,9 +17,9 @@ namespace EducaFacil.Infrastructure.Data.Repositpories
         }
        
 
-        public RetornoApi<ResponsavelContratante> BuscarResponsavelPorId(Guid id, Guid alunoId)
+        public RetornoApi<Responsavel> BuscarResponsavelPorId(Guid id, Guid alunoId)
         {
-            RetornoApi<ResponsavelContratante> retorno = new RetornoApi<ResponsavelContratante>()
+            RetornoApi<Responsavel> retorno = new RetornoApi<Responsavel>()
             {
                 Success = false,
                 Message = $"Responsável com Id: {id} não encontrado!",
@@ -50,9 +50,9 @@ namespace EducaFacil.Infrastructure.Data.Repositpories
                 return retorno;
             }
         }
-        public RetornoApi<List<ResponsavelContratante>> BuscarTodosOsResponsaveis(Guid id)
+        public RetornoApi<List<Responsavel>> BuscarTodosOsResponsaveis(Guid id)
         {
-            RetornoApi<List<ResponsavelContratante>> retorno = new RetornoApi<List<ResponsavelContratante>>()
+            RetornoApi<List<Responsavel>> retorno = new RetornoApi<List<Responsavel>>()
             {
                 Success = false,
                 Message = "Responsáveis não encontrados",
@@ -82,9 +82,9 @@ namespace EducaFacil.Infrastructure.Data.Repositpories
                 return retorno;
             }
         }
-        public RetornoApi<ResponsavelContratante> CriarResponsavel(ResponsavelContratante responsavelContratante)
+        public RetornoApi<Responsavel> CriarResponsavel(Responsavel responsavelContratante)
         {
-            RetornoApi<ResponsavelContratante> retorno = new RetornoApi<ResponsavelContratante>()
+            RetornoApi<Responsavel> retorno = new RetornoApi<Responsavel>()
             {
                 Success = false,
                 Message = $"Erro ao criar responsável",
@@ -110,9 +110,9 @@ namespace EducaFacil.Infrastructure.Data.Repositpories
                 return retorno;
             }
         }
-        public RetornoApi<ResponsavelContratante> DeletarResponsavel(Guid id)
+        public RetornoApi<Responsavel> DeletarResponsavel(Guid id)
         {
-            RetornoApi<ResponsavelContratante> retorno = new RetornoApi<ResponsavelContratante>()
+            RetornoApi<Responsavel> retorno = new RetornoApi<Responsavel>()
             {
                 Success = false,
                 Message = "Não foi possível deletar o responsável",
@@ -144,9 +144,9 @@ namespace EducaFacil.Infrastructure.Data.Repositpories
                 return retorno;
             }
         }
-        public RetornoApi<ResponsavelContratante> EditarResponsavel(Guid id, ResponsavelContratante responsavelContratante)
+        public RetornoApi<Responsavel> EditarResponsavel(Guid id, Responsavel responsavelContratante)
         {
-            RetornoApi<ResponsavelContratante> retorno = new RetornoApi<ResponsavelContratante>()
+            RetornoApi<Responsavel> retorno = new RetornoApi<Responsavel>()
             {
                 Success = false,
                 Message = $"Não foi possível atualizar o responsável",

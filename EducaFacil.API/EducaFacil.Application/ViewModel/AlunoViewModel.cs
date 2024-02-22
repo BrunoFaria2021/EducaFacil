@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using EducaFacil.Domain.Entities;
 
 namespace EducaFacil.Application.ViewModel
 {
@@ -22,8 +18,6 @@ namespace EducaFacil.Application.ViewModel
         public DateTime DataCriacao { get; set; }
         public Guid ResponsavelId { get; set; }
         public ResponsavelViewModel Responsavel { get; set; }
-        //public List<MatriculaViewModel> Matriculas { get; set; }
-        //public List<NotificacaoViewModel> Notificacoes { get; set; }
-        //public List<BilhetePresencaViewModel> BilhetesPresencas { get; set; }
+        public List<Nota> Notas { get; set; }
     }
 }

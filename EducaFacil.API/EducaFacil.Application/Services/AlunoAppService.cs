@@ -137,7 +137,7 @@ namespace EducaFacil.Application.Services
                 Nome = alunoDTO.Nome,
                 Sobrenome = alunoDTO.Sobrenome,
                 CPF = alunoDTO.CPF,
-                Idade = CalcularIdade(alunoDTO.DataNascimento),
+                Senha = senhaSegura,
                 Email = alunoDTO.Email,
                 Sexo = alunoDTO.Sexo,
                 Genero = alunoDTO.Genero,

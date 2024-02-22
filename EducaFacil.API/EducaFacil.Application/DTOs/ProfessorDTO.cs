@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EducaFacil.Domain.Entities
+﻿namespace EducaFacil.Application.DTOs
 {
-    public class Professor
+    public class ProfessorDTO
     {
-        public Guid Id { get; set; }
         public string Nome { get; set; } = string.Empty;
         public string Sobrenome { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
-        public string Senha { get; set; } = string.Empty;
+        public string Senha { get; set; }
         public string Sexo { get; set; } = string.Empty;
         public string Genero { get; set; } = string.Empty;
         public string EstadoCivil { get; set; } = string.Empty;
@@ -33,12 +25,8 @@ namespace EducaFacil.Domain.Entities
         public DateTime DataNascimento { get; set; }
         public DateTime DataAtualizacao { get; set; }
         public DateTime DataCriacao { get; set; }
-
-        //Relacionamento
-        [ForeignKey("EscolaId")]
         public Guid EscolaId { get; set; }
-        public Escola Escola { get; set; }
-        public List<Nota> Notas { get; set; }
+        public EscolaDTO Escola { get; set; }
+        public List<NotaDTO> Notas { get; set; }
     }
-
 }

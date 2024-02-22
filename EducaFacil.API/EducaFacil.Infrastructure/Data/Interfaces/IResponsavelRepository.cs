@@ -5,10 +5,10 @@ namespace EducaFacil.Infrastructure.Data.Interfaces
 {
     public interface IResponsavelRepository
     {
-        RetornoApi<List<ResponsavelContratante>> BuscarTodosOsResponsaveis(Guid id);
-        RetornoApi<ResponsavelContratante> BuscarResponsavelPorId(Guid id, Guid alunoId);
-        RetornoApi<ResponsavelContratante> CriarResponsavel(ResponsavelContratante responsavelContratante);
-        RetornoApi<ResponsavelContratante> EditarResponsavel(Guid id, ResponsavelContratante responsavelContratante);
-        RetornoApi<ResponsavelContratante> DeletarResponsavel(Guid id);
+        RetornoApi<List<Responsavel>> BuscarTodosOsResponsaveis(Guid id);
+        RetornoApi<Responsavel> BuscarResponsavelPorId(Guid id, Guid alunoId);
+        RetornoApi<Responsavel> CriarResponsavel(Responsavel responsavelContratante);
+        RetornoApi<Responsavel> EditarResponsavel(Guid id, Responsavel responsavelContratante);
+        RetornoApi<Responsavel> DeletarResponsavel(Guid id);
     }
 }

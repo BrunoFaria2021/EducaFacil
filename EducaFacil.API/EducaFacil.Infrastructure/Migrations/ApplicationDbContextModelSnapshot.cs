@@ -45,12 +45,15 @@ namespace EducaFacil.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("EscolaId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Genero")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Idade")
-                        .HasColumnType("int");
+                    b.Property<Guid>("MatriculaId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -59,9 +62,6 @@ namespace EducaFacil.Infrastructure.Migrations
                     b.Property<string>("Observacao")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("ProfessorId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ResponsavelId")
                         .HasColumnType("uniqueidentifier");
@@ -80,50 +80,11 @@ namespace EducaFacil.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProfessorId");
+                    b.HasIndex("EscolaId");
 
                     b.HasIndex("ResponsavelId");
 
                     b.ToTable("Alunos");
-                });
-
-            modelBuilder.Entity("EducaFacil.Domain.Entities.BilhetesPresenca", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<Guid>("AlunoId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("Data")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("Presente")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AlunoId");
-
-                    b.ToTable("BilhetesPresenca");
-                });
-
-            modelBuilder.Entity("EducaFacil.Domain.Entities.Curso", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Cursos");
                 });
 
             modelBuilder.Entity("EducaFacil.Domain.Entities.Disciplina", b =>
@@ -132,18 +93,55 @@ namespace EducaFacil.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CursoId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CursoId");
-
                     b.ToTable("Disciplinas");
+                });
+
+            modelBuilder.Entity("EducaFacil.Domain.Entities.DisciplinaSerie", b =>
+                {
+                    b.Property<Guid?>("DisciplinaId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("SerieId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("DisciplinaId", "SerieId");
+
+                    b.HasIndex("SerieId");
+
+                    b.ToTable("DisciplinaSeries");
+                });
+
+            modelBuilder.Entity("EducaFacil.Domain.Entities.Escola", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Localizacao")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Telefone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Escola");
                 });
 
             modelBuilder.Entity("EducaFacil.Domain.Entities.Matricula", b =>
@@ -155,25 +153,63 @@ namespace EducaFacil.Infrastructure.Migrations
                     b.Property<Guid>("AlunoId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("TurmaId")
+                    b.Property<Guid>("EscolaId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ResponsavelId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AlunoId")
+                        .IsUnique();
+
+                    b.HasIndex("EscolaId");
+
+                    b.HasIndex("ResponsavelId");
+
+                    b.ToTable("Matriculas");
+                });
+
+            modelBuilder.Entity("EducaFacil.Domain.Entities.Nota", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AlunoId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DataLancamento")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Disciplina")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Periodo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ProfessorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Valor")
+                        .HasColumnType("decimal(18,   2)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AlunoId");
 
-                    b.HasIndex("TurmaId");
+                    b.HasIndex("ProfessorId");
 
-                    b.ToTable("Matriculas");
+                    b.ToTable("Notas");
                 });
 
             modelBuilder.Entity("EducaFacil.Domain.Entities.Notificacao", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("AlunoId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("DataEnvio")
@@ -191,8 +227,6 @@ namespace EducaFacil.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AlunoId");
 
                     b.HasIndex("ResponsavelId");
 
@@ -241,6 +275,9 @@ namespace EducaFacil.Infrastructure.Migrations
                     b.Property<string>("Endereco")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("EscolaId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Estado")
                         .IsRequired()
@@ -296,6 +333,8 @@ namespace EducaFacil.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EscolaId");
+
                     b.ToTable("Professores");
                 });
 
@@ -323,7 +362,7 @@ namespace EducaFacil.Infrastructure.Migrations
                     b.ToTable("RefreshToken");
                 });
 
-            modelBuilder.Entity("EducaFacil.Domain.Entities.ResponsavelContratante", b =>
+            modelBuilder.Entity("EducaFacil.Domain.Entities.Responsavel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -407,35 +446,19 @@ namespace EducaFacil.Infrastructure.Migrations
                     b.ToTable("Responsaveis");
                 });
 
-            modelBuilder.Entity("EducaFacil.Domain.Entities.Turma", b =>
+            modelBuilder.Entity("EducaFacil.Domain.Entities.Serie", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CursoId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("DisciplinaId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("ProfessorId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Tipo")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("DisciplinaId");
-
-                    b.HasIndex("ProfessorId");
-
-                    b.ToTable("Turmas");
+                    b.ToTable("Cursos");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -638,11 +661,11 @@ namespace EducaFacil.Infrastructure.Migrations
 
             modelBuilder.Entity("EducaFacil.Domain.Entities.Aluno", b =>
                 {
-                    b.HasOne("EducaFacil.Domain.Entities.Professor", null)
+                    b.HasOne("EducaFacil.Domain.Entities.Escola", null)
                         .WithMany("Alunos")
-                        .HasForeignKey("ProfessorId");
+                        .HasForeignKey("EscolaId");
 
-                    b.HasOne("EducaFacil.Domain.Entities.ResponsavelContratante", "Responsavel")
+                    b.HasOne("EducaFacil.Domain.Entities.Responsavel", "Responsavel")
                         .WithMany("Alunos")
                         .HasForeignKey("ResponsavelId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -651,77 +674,87 @@ namespace EducaFacil.Infrastructure.Migrations
                     b.Navigation("Responsavel");
                 });
 
-            modelBuilder.Entity("EducaFacil.Domain.Entities.BilhetesPresenca", b =>
-                {
-                    b.HasOne("EducaFacil.Domain.Entities.Aluno", null)
-                        .WithMany("BilhetesPresencas")
-                        .HasForeignKey("AlunoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("EducaFacil.Domain.Entities.Disciplina", b =>
-                {
-                    b.HasOne("EducaFacil.Domain.Entities.Curso", "Curso")
-                        .WithMany("Disciplinas")
-                        .HasForeignKey("CursoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Curso");
-                });
-
-            modelBuilder.Entity("EducaFacil.Domain.Entities.Matricula", b =>
-                {
-                    b.HasOne("EducaFacil.Domain.Entities.Aluno", "Aluno")
-                        .WithMany("Matriculas")
-                        .HasForeignKey("AlunoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EducaFacil.Domain.Entities.Turma", "Turma")
-                        .WithMany("Matriculas")
-                        .HasForeignKey("TurmaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Aluno");
-
-                    b.Navigation("Turma");
-                });
-
-            modelBuilder.Entity("EducaFacil.Domain.Entities.Notificacao", b =>
-                {
-                    b.HasOne("EducaFacil.Domain.Entities.Aluno", null)
-                        .WithMany("Notificacoes")
-                        .HasForeignKey("AlunoId");
-
-                    b.HasOne("EducaFacil.Domain.Entities.ResponsavelContratante", "Responsavel")
-                        .WithMany()
-                        .HasForeignKey("ResponsavelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Responsavel");
-                });
-
-            modelBuilder.Entity("EducaFacil.Domain.Entities.Turma", b =>
+            modelBuilder.Entity("EducaFacil.Domain.Entities.DisciplinaSerie", b =>
                 {
                     b.HasOne("EducaFacil.Domain.Entities.Disciplina", "Disciplina")
-                        .WithMany("Turmas")
+                        .WithMany("DisciplinasSeries")
                         .HasForeignKey("DisciplinaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EducaFacil.Domain.Entities.Professor", "Professor")
-                        .WithMany()
-                        .HasForeignKey("ProfessorId")
+                    b.HasOne("EducaFacil.Domain.Entities.Serie", "Serie")
+                        .WithMany("DisciplinasSeries")
+                        .HasForeignKey("SerieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Disciplina");
 
+                    b.Navigation("Serie");
+                });
+
+            modelBuilder.Entity("EducaFacil.Domain.Entities.Matricula", b =>
+                {
+                    b.HasOne("EducaFacil.Domain.Entities.Aluno", "Aluno")
+                        .WithOne("Matricula")
+                        .HasForeignKey("EducaFacil.Domain.Entities.Matricula", "AlunoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EducaFacil.Domain.Entities.Escola", "Escola")
+                        .WithMany()
+                        .HasForeignKey("EscolaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EducaFacil.Domain.Entities.Responsavel", null)
+                        .WithMany("Matriculas")
+                        .HasForeignKey("ResponsavelId");
+
+                    b.Navigation("Aluno");
+
+                    b.Navigation("Escola");
+                });
+
+            modelBuilder.Entity("EducaFacil.Domain.Entities.Nota", b =>
+                {
+                    b.HasOne("EducaFacil.Domain.Entities.Aluno", "Aluno")
+                        .WithMany("Notas")
+                        .HasForeignKey("AlunoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EducaFacil.Domain.Entities.Professor", "Professor")
+                        .WithMany("Notas")
+                        .HasForeignKey("ProfessorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Aluno");
+
                     b.Navigation("Professor");
+                });
+
+            modelBuilder.Entity("EducaFacil.Domain.Entities.Notificacao", b =>
+                {
+                    b.HasOne("EducaFacil.Domain.Entities.Responsavel", "Responsavel")
+                        .WithMany("Notificacoes")
+                        .HasForeignKey("ResponsavelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Responsavel");
+                });
+
+            modelBuilder.Entity("EducaFacil.Domain.Entities.Professor", b =>
+                {
+                    b.HasOne("EducaFacil.Domain.Entities.Escola", "Escola")
+                        .WithMany("Professores")
+                        .HasForeignKey("EscolaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Escola");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -777,36 +810,41 @@ namespace EducaFacil.Infrastructure.Migrations
 
             modelBuilder.Entity("EducaFacil.Domain.Entities.Aluno", b =>
                 {
-                    b.Navigation("BilhetesPresencas");
+                    b.Navigation("Matricula")
+                        .IsRequired();
+
+                    b.Navigation("Notas");
+                });
+
+            modelBuilder.Entity("EducaFacil.Domain.Entities.Disciplina", b =>
+                {
+                    b.Navigation("DisciplinasSeries");
+                });
+
+            modelBuilder.Entity("EducaFacil.Domain.Entities.Escola", b =>
+                {
+                    b.Navigation("Alunos");
+
+                    b.Navigation("Professores");
+                });
+
+            modelBuilder.Entity("EducaFacil.Domain.Entities.Professor", b =>
+                {
+                    b.Navigation("Notas");
+                });
+
+            modelBuilder.Entity("EducaFacil.Domain.Entities.Responsavel", b =>
+                {
+                    b.Navigation("Alunos");
 
                     b.Navigation("Matriculas");
 
                     b.Navigation("Notificacoes");
                 });
 
-            modelBuilder.Entity("EducaFacil.Domain.Entities.Curso", b =>
+            modelBuilder.Entity("EducaFacil.Domain.Entities.Serie", b =>
                 {
-                    b.Navigation("Disciplinas");
-                });
-
-            modelBuilder.Entity("EducaFacil.Domain.Entities.Disciplina", b =>
-                {
-                    b.Navigation("Turmas");
-                });
-
-            modelBuilder.Entity("EducaFacil.Domain.Entities.Professor", b =>
-                {
-                    b.Navigation("Alunos");
-                });
-
-            modelBuilder.Entity("EducaFacil.Domain.Entities.ResponsavelContratante", b =>
-                {
-                    b.Navigation("Alunos");
-                });
-
-            modelBuilder.Entity("EducaFacil.Domain.Entities.Turma", b =>
-                {
-                    b.Navigation("Matriculas");
+                    b.Navigation("DisciplinasSeries");
                 });
 #pragma warning restore 612, 618
         }

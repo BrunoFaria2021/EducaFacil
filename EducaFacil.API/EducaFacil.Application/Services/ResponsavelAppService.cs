@@ -138,7 +138,7 @@ namespace EducaFacil.Application.Services
         }
     
 
-        public Task<RetornoApi<ResponsavelViewModel>> CriarResponsavel(ResponsavelDTO responsavelDTO)
+        public Task<RetornoApi<ResponsavelViewModel>> CriarResponsavel(ResponsavelContratanteDTO responsavelDTO)
         {
             RetornoApi<ResponsavelViewModel> retorno = new RetornoApi<ResponsavelViewModel>()
             {
@@ -159,7 +159,7 @@ namespace EducaFacil.Application.Services
             }
             var senhaSegura = HashSenha.HashSenhaUsuario(responsavelDTO.Senha);
 
-            ResponsavelContratante responsavelContratante = new ResponsavelContratante()
+            Responsavel responsavelContratante = new Responsavel()
             {
 
                 Nome = responsavelDTO.Nome,
@@ -243,7 +243,7 @@ namespace EducaFacil.Application.Services
                 }
             }
 
-            var responsavel = new ResponsavelContratante
+            var responsavel = new Responsavel
             {
                 Id = id,
                 Nome = responsavelDTO.Nome,

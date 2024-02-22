@@ -12,6 +12,6 @@ namespace EducaFacil.Domain.Entities
 
         [ForeignKey("ResponsavelId")]
         public Guid ResponsavelId { get; set; }
-        public ResponsavelContratante Responsavel { get; set; }
+        public Responsavel Responsavel { get; set; }
     }
 }
