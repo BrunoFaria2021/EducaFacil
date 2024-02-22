@@ -24,6 +24,8 @@ builder.Services.AddScoped<IResponsavelAppService, ResponsavelAppService>();
 builder.Services.AddScoped<IResponsavelRepository, ResponsavelRepository>();
 builder.Services.AddScoped<IAutenticacaoRepository, AutenticacaoRepository>();
 builder.Services.AddScoped<IAutenticacaoAppService, AutenticacaoAppService>();
+builder.Services.AddScoped<IMatriculaRepository, MatriculaRepository>();
+builder.Services.AddScoped<IMatriculaAppService, MatriculaAppService>();
 
 // Adicionando a autenticação JWT
 var chave = Encoding.ASCII.GetBytes("a62263c508f45182b3d524b33ebc4c9b1652d9c195bbd81f9b0c0e6c312a7775");

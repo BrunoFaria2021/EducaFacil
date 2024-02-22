@@ -177,7 +177,7 @@ namespace EducaFacil.Application.Services
                 Cidade = responsavelDTO.Cidade,
                 Bairro = responsavelDTO.Bairro,
                 Observacao = responsavelDTO.Observacao,
-                Senha = responsavelDTO.Senha,
+                Senha = senhaSegura,
                 DataNascimento = responsavelDTO.DataNascimento,
                 DataAtualizacao = DateTime.Now,
                 DataCriacao = DateTime.Now

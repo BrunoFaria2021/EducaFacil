@@ -21,9 +21,9 @@ namespace EducaFacil.Domain.Entities
         [ForeignKey("ResponsavelId")]
         public Guid ResponsavelId { get; set; }
         public ResponsavelContratante Responsavel { get; set; } = new ResponsavelContratante();
-        [ForeignKey("SerieId")]
-        public Guid SerieId { get; set; }
-        public Serie Serie { get; set; }
+        //[ForeignKey("SerieId")]
+        //public Guid SerieId { get; set; }
+        //public Serie Serie { get; set; }
 
         public List<AlunoMatricula> AlunoMatriculas { get; set; } = new List<AlunoMatricula>();
         public List<Matricula> Matriculas { get; set; } = new List<Matricula>();

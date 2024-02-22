@@ -85,7 +85,7 @@ namespace EducaFacil.Infrastructure.Data.Repositpories
             }
         }
 
-        public RetornoApi<Aluno> CriarAluno(Aluno alunoDTO, Guid serieId)
+        public RetornoApi<Aluno> CriarAluno(Aluno alunoDTO)// Guid serieId)
         {
             RetornoApi<Aluno> retorno = new RetornoApi<Aluno>()
             {
@@ -115,7 +115,7 @@ namespace EducaFacil.Infrastructure.Data.Repositpories
                 retorno.StatusCode = HttpStatusCode.InternalServerError;
                 return retorno;
             }
-            throw new NotImplementedException();
+            
         }
 
         public RetornoApi<Aluno> DeletarAluno(Guid id)

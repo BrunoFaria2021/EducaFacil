@@ -13,11 +13,11 @@ using System.Threading.Tasks;
 
 namespace EducaFacil.Application.Services
 {
-    public class MatriculaService : IMatriculaAppService
+    public class MatriculaAppService : IMatriculaAppService
     {
         private readonly ApplicationDbContext _context;
 
-        public MatriculaService(ApplicationDbContext context)
+        public MatriculaAppService(ApplicationDbContext context)
         {
             _context = context;
         }

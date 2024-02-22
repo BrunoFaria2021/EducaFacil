@@ -110,7 +110,7 @@ namespace EducaFacil.Application.Services
 
             return retorno;
         }
-        public async Task<RetornoApi<AlunoViewModel>> CriarAluno(AlunoDTO alunoDTO, Guid serieId)
+        public  Task<RetornoApi<AlunoViewModel>> CriarAluno(AlunoDTO alunoDTO)//Guid serieId)
         {
             RetornoApi<AlunoViewModel> retorno = new RetornoApi<AlunoViewModel>()
             {
@@ -118,6 +118,14 @@ namespace EducaFacil.Application.Services
                 Message = $"Não foi possivel criar o Aluno!",
                 StatusCode = HttpStatusCode.BadRequest
             };
+            // Verificar se o ID do responsável é válido
+            var responsavelExistente =  _responsavelRepository.ObterResponsavelPorId(alunoDTO.ResponsavelId);
+            if (responsavelExistente == null)
+            {
+                retorno.Message = "O ID do responsável fornecido não é válido";
+                retorno.StatusCode = HttpStatusCode.BadRequest;
+                return Task.FromResult(retorno);
+            }
             var checarEmail = _autenticacaoRepository.BuscarUsuarioPorEmail(alunoDTO.Email);
 
             if (checarEmail.Success)
@@ -127,13 +135,14 @@ namespace EducaFacil.Application.Services
                 retorno.Success = false;
                 retorno.StatusCode = HttpStatusCode.BadGateway;
 
-                return retorno;
+                return Task.FromResult(retorno);
             }
 
             var senhaSegura = HashSenha.HashSenhaUsuario(alunoDTO.Senha);
 
             Aluno aluno = new Aluno()
             {
+              
                 Nome = alunoDTO.Nome,
                 Sobrenome = alunoDTO.Sobrenome,
                 CPF = alunoDTO.CPF,
@@ -146,10 +155,10 @@ namespace EducaFacil.Application.Services
                 DataNascimento = alunoDTO.DataNascimento,
                 DataAtualizacao = alunoDTO.DataAtualizacao,
                 DataCriacao = alunoDTO.DataCriacao,
-                ResponsavelId = alunoDTO.ResponsavelId,
-                SerieId = serieId
+                ResponsavelId = alunoDTO.ResponsavelId
+                //SerieId = serieId
             };
-            var dados =  _alunoRepository.CriarAluno(aluno, serieId);
+            var dados = _alunoRepository.CriarAluno(aluno);// serieId);
 
             if (!dados.Success)
             {
@@ -157,14 +166,14 @@ namespace EducaFacil.Application.Services
                 {
                     retorno.Errors.Add(erro);
                 }
-                return  retorno;
+                return Task.FromResult(retorno);
             }
 
             retorno.Message = "Aluno criado com Sucesso";
             retorno.Success = true;
             retorno.StatusCode = HttpStatusCode.OK;
 
-            return retorno;
+            return Task.FromResult(retorno);
         }
 
         public Task<RetornoApi<AlunoViewModel>> DeletarAluno(Guid id)

@@ -182,5 +182,38 @@ namespace EducaFacil.Infrastructure.Data.Repositpories
             }
         }
 
+        public RetornoApi<ResponsavelContratante> ObterResponsavelPorId(Guid id)
+        {
+            RetornoApi<ResponsavelContratante> retorno = new RetornoApi<ResponsavelContratante>()
+            {
+                Success = false,
+                Message = $"Responsável com Id: {id} não encontrado!",
+                StatusCode = HttpStatusCode.NotFound
+            };
+
+            try
+            {
+                var responsavel = _context.Responsaveis.Include(x => x.Alunos).Where(x => x.Id == id).FirstOrDefault();
+
+
+                if (responsavel == null)
+                {
+                    return retorno;
+                }
+
+                retorno.Success = true;
+                retorno.Message = "Responsável encontrado";
+                retorno.StatusCode = HttpStatusCode.OK;
+                retorno.Data = responsavel;
+
+                return retorno;
+            }
+            catch (Exception ex)
+            {
+                retorno.Errors.Add(ex.ToString());
+                retorno.StatusCode = HttpStatusCode.InternalServerError;
+                return retorno;
+            }
+        }
     }
 }

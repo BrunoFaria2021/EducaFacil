@@ -56,9 +56,9 @@ namespace EducaFacil.API.Controllers
         }
 
         [HttpPost("Criar")]
-        public async Task<IActionResult> CriarAluno([FromBody] AlunoDTO alunoDTO, Guid serieId)
+        public async Task<IActionResult> CriarAluno([FromBody] AlunoDTO alunoDTO)//Guid serieId)
         {
-            var resultado = await _alunoAppService.CriarAluno(alunoDTO,serieId);
+            var resultado = await _alunoAppService.CriarAluno(alunoDTO);//serieId);
 
             if (!resultado.Success)
             {
